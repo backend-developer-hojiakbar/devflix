@@ -161,22 +161,7 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Enhanced Footer */}
-          <footer className="py-3 bg-gray-900/50 rounded-xl mb-2 px-6 border border-gray-700">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <div className="text-2xl font-bold text-white">Devflix</div>
-              <div className="flex items-center gap-4">
-                <a href="tel:+998335040098" className="flex items-center gap-2 text-white hover:text-green-400 transition-all transform hover:scale-110 bg-gray-800 px-4 py-2 rounded-lg border border-green-500/30">
-                  <Phone size={18} className="text-green-400" />
-                  <span className="font-bold text-sm">33 504 00 98</span>
-                </a>
-                <a href="https://t.me/devflix" className="flex items-center gap-2 text-white hover:text-blue-400 transition-all transform hover:scale-110 bg-gray-800 px-4 py-2 rounded-lg border border-blue-500/30">
-                  <MessageCircle size={18} className="text-blue-400" />
-                  <span className="font-bold text-sm">@devflix</span>
-                </a>
-              </div>
-            </div>
-          </footer>
+         
         </div>
       </div>
     </div>
