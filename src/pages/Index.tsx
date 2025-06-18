@@ -161,7 +161,12 @@ const Index = () => {
             </div>
           </div>
 
-         
+          {/* Enhanced Footer */}
+          <footer className="py-3 bg-gray-900/50 rounded-xl mb-2 px-6 border border-gray-700">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+              <div className="text-1xl font-bold text-white">© 2025 AiDoktor.uz. BARCHA HUQUQLAR HIMOYALANGAN | CDCGroup TOMONIDAN ILMIY ASOSDA ISHLAB CHIQILDI | CraDev COMPANY TEXNOLOGIK HAMKORLIGIDA</div>
+            </div>
+          </footer>
         </div>
       </div>
     </div>
