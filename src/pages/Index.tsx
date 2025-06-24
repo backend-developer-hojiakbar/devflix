@@ -49,24 +49,27 @@ const Index = () => {
   };
 
   const districts = [
-    'Andijon',
+    "Farg'ona shahri",
     'Farg\'ona',
-    'Namangan',
-    'Qo\'shko\'prik',
-    'O\'zbekiston',
-    'Ravon',
-    'So\'x',
-    'Toshloq',
-    'Uychi',
-    'Beshariq',
-    'Bog\'bon',
-    'Dang\'ara',
-    'Ko\'prik',
-    'Qo\'qon',
-    'Quva',
-    'Shaxrisabz',
-    'Toshloq',
-    'Yaruqo\'rg\'on'
+    "Bag'dod",
+    "Beshariq",
+    "Buvayda",
+    "Dang'ara",
+    "Farg'ona tumani",
+    "Furqat",
+    "Marg'ilon",
+    "Oltiariq",
+    "Quva",
+    "Quvasoy",
+    "Qo'qon",
+    "Qo'shtepa",
+    "Rishton",
+    "So'x",
+    "Toshloq",
+    "Uchko'prik",
+    "Yozyovon",
+    "O'zbekiston tumani",
+    "Boshqa viloyat"
   ];
 
   const features = [
