@@ -7,22 +7,23 @@ const TARGET_USER_ID = '213806260';
 
 export const useTelegramBot = () => {
   const { toast } = useToast();
-  const [phoneNumber, setPhoneNumber] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const sendPhoneNumber = async (number: string) => {
+  const sendApplication = async (formData: {
+    name: string;
+    phoneNumber: string;
+    format: string;
+    district: string;
+  }) => {
     try {
       setIsLoading(true);
       setError('');
       
-      // Telegram bot API endpoint
       const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
       
-      // Message to send
-      const message = `Yangi ariza:\nTelefon raqami: ${number}\n\nMijozdan yaxshi xizmat qilish!`;
+      const message = `Yangi ariza:\nIsmi: ${formData.name}\nTelefon raqami: ${formData.phoneNumber}\nO'qish formati: ${formData.format}\nHududi: ${formData.district}\n\nMijozdan yaxshi xizmat qilish!`;
       
-      // Send message to target user
       const response = await axios.post(url, {
         chat_id: TARGET_USER_ID,
         text: message,
@@ -31,8 +32,8 @@ export const useTelegramBot = () => {
       
       if (response.status === 200) {
         toast({
-          title: "Ariza yuborildi",
-          description: "Tez orada siz bilan bog'lanamiz!",
+          title: "Ariza muvaffaqiyatli yuborildi",
+          description: "Biz tez orada siz bilan bog'lanamiz!"
         });
         return true;
       } else {
@@ -48,10 +49,8 @@ export const useTelegramBot = () => {
   };
 
   return {
-    phoneNumber,
-    setPhoneNumber,
     isLoading,
     error,
-    sendPhoneNumber
+    sendApplication
   };
 };

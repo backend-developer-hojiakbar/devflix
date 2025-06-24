@@ -5,12 +5,69 @@ import { Badge } from "@/components/ui/badge";
 import { Phone, MessageCircle, CheckCircle, ArrowRight, Play, Sparkles, Zap, Target } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useTelegramBot } from "@/hooks/useTelegramBot";
 import axios from 'axios';
 
 const Index = () => {
   const { toast } = useToast();
-  const { phoneNumber, setPhoneNumber, isLoading, error, sendPhoneNumber } = useTelegramBot();
+  const { sendApplication } = useTelegramBot();
+  const [formData, setFormData] = useState({
+    name: '',
+    phoneNumber: '',
+    format: '',
+    district: ''
+  });
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = () => {
+    if (!formData.name || !formData.phoneNumber || !formData.format || !formData.district) {
+      setError('Iltimos, barcha maydonlarni to\'liq to\'ldiring');
+      return;
+    }
+
+    setIsLoading(true);
+    sendApplication(formData)
+      .then(() => {
+        toast('Ariza muvaffaqiyatli yuborildi')
+      })
+      .catch((err) => {
+        setError('Ariza yuborishda xatolik yuz berdi');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  const districts = [
+    'Andijon',
+    'Farg\'ona',
+    'Namangan',
+    'Qo\'shko\'prik',
+    'O\'zbekiston',
+    'Ravon',
+    'So\'x',
+    'Toshloq',
+    'Uychi',
+    'Beshariq',
+    'Bog\'bon',
+    'Dang\'ara',
+    'Ko\'prik',
+    'Qo\'qon',
+    'Quva',
+    'Shaxrisabz',
+    'Toshloq',
+    'Yaruqo\'rg\'on'
+  ];
 
   const features = [
     { icon: Zap, text: "1 oyda dasturlash asoslarini o'rganing" },
@@ -44,9 +101,9 @@ const Index = () => {
               Devflix
             </div>
             <div className="flex items-center gap-4">
-              <a href="tel:+998335040098" className="flex items-center gap-2 text-white hover:text-green-400 transition-all transform hover:scale-110 bg-gray-800 px-4 py-2 rounded-lg border border-green-500/30">
+              <a href="tel:+998337372535" className="flex items-center gap-2 text-white hover:text-green-400 transition-all transform hover:scale-110 bg-gray-800 px-4 py-2 rounded-lg border border-green-500/30">
                 <Phone size={18} className="text-green-400" />
-                <span className="font-bold text-sm">33 504 00 98</span>
+                <span className="font-bold text-sm">33 737 25 35</span>
               </a>
               <a href="https://t.me/devflix" className="flex items-center gap-2 text-white hover:text-blue-400 transition-all transform hover:scale-110 bg-gray-800 px-4 py-2 rounded-lg border border-blue-500/30">
                 <MessageCircle size={18} className="text-blue-400" />
@@ -87,27 +144,72 @@ const Index = () => {
                     </DialogTitle>
                   </DialogHeader>
                   <div id="dialog-description" className="text-gray-300 mt-4">
-                    Telefon raqamingizni quyidagi formatda kiriting: +998 XX XXX XX XX
+                    Arizangizni quyidagi formatda to'liq to'ldiring
                   </div>
                   <div className="flex flex-col gap-4">
                     {error ? (
                       <div className="text-red-400 text-sm">{error}</div>
                     ) : null}
                     <div className="flex flex-col gap-2">
-                      <label className="text-gray-300">Telefon raqamingiz</label>
+                      <label className="text-gray-300">Ismingiz</label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-2 bg-gray-800/50 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-green-500/50"
+                        placeholder="Ismingizni kiriting"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <label className="text-gray-300">Telefon raqami</label>
                       <input
                         type="tel"
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                        placeholder="+998 XX XXX XX XX"
+                        name="phoneNumber"
+                        value={formData.phoneNumber}
+                        onChange={handleInputChange}
                         className="w-full px-4 py-2 bg-gray-800/50 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-green-500/50"
+                        placeholder="+998 XX XXX XX XX"
                       />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <label className="text-gray-300">O'qish formati</label>
+                      <Select
+                        value={formData.format}
+                        onValueChange={(value) => setFormData({ ...formData, format: value })}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Tanlang" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="online">Online</SelectItem>
+                          <SelectItem value="offline">Offline</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <label className="text-gray-300">Farg'ona viloyatining qaysi hududidan</label>
+                      <Select
+                        value={formData.district}
+                        onValueChange={(value) => setFormData({ ...formData, district: value })}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Tanlang" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {districts.map((district) => (
+                            <SelectItem key={district} value={district.toLowerCase()}>
+                              {district}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
                     <Button
                       size="lg"
                       className="w-full text-lg bg-green-500 hover:bg-green-600 text-white font-bold transform hover:scale-105 transition-all shadow-2xl"
-                      onClick={() => sendPhoneNumber(phoneNumber)}
-                      disabled={isLoading || !phoneNumber}
+                      onClick={handleSubmit}
+                      disabled={isLoading}
                     >
                       {isLoading ? (
                         <div className="flex items-center justify-center gap-2">
